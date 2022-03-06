@@ -5,8 +5,9 @@ import { getSortedPostsData } from "../lib/posts";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import Date from "../components/date";
+import { GetStaticProps } from "next";
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps= async()=> {
   const allPostsData = getSortedPostsData();
   return {
     props: {
@@ -15,7 +16,15 @@ export async function getStaticProps() {
   };
 }
 
-export default function Home({ allPostsData }: any) {
+type Props = {
+  allPostsData:{
+    id: string
+    title: string
+    date: string
+  }[]
+}
+
+export default function Home({ allPostsData }: Props) {
   const CountUp = dynamic(() => import("../components/Countup"), {
     ssr: false,
   });
