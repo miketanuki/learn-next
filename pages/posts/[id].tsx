@@ -3,6 +3,7 @@ import Layout from "../../components/Layout";
 import Date from "../../components/date"
 import { getAllPostIds, getPostData } from "../../lib/posts"; 
 import utilStyles from '../../styles/utils.module.scss'
+import { type } from "os";
 
 
 export default function Post({postData}:any) {
@@ -24,8 +25,8 @@ export default function Post({postData}:any) {
 
 // build時に作成するパスを指定する
 export async function getStaticPaths(){
-    const paths = getAllPostIds()
-    console.log(paths);
+    const paths = await getAllPostIds()
+    // console.log(paths);
     
     return {
         paths,
@@ -34,11 +35,17 @@ export async function getStaticPaths(){
     }
 }
 
+type Props = {
+    params :{
+        id: string
+    }
+}
+
 // コンテンツを取得しpropsにして渡す
 // paramsはgetStaaticPahtsの返り値を受け取っとんか？要確認
-export async function getStaticProps({params}:any){
+export async function getStaticProps({params}:Props){
     const postData = await getPostData(params.id)
-    console.log(params);
+    // console.log(params);
     
     return {
         // getStaticPropsを使う際は必ずオブジェクト型にし、propsのキーを持ったオブジェクトを返すようにする
